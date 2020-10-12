@@ -62,6 +62,7 @@ function checkGuess(guess){
     } else if(prevGuesses.includes(guess)) {
       alert("Word already found!");
     } else {
+      alert("Not a word!");
       return false;
     }
   })  
