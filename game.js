@@ -17,8 +17,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let myDatabase = firebase.database();
-myDatabase.ref("dictionary").child("a").once('value', ss=>{
-  //alert(ss.val());
+myDatabase.ref("dictionary").child("a").child.("apple").once('value', ss=>{
+  alert(ss.val());
 })
 
 let randomIndex = parseInt(Math.floor(Math.random() * STARTERS));
