@@ -17,7 +17,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let myDatabase = firebase.database();
-myDatabase.ref("dictionary").child("a").child.("apple").once('value', ss=>{
+myDatabase.ref("dictionary").child("a").child("apple").once('value', ss=>{
   alert(ss.val());
 })
 
