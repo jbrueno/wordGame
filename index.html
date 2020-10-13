@@ -3,22 +3,33 @@
 <head>
   <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
+  
+  
 <div id ="game">
 
   <h1>Word Game</h1>
+  <button id="start">Start Game</button>
+  <p id="time">Time: 30</p>
   <p id="score">Score: 0</p>
   <button id="submit">Check Word</button>
   
   <input type = "text" id = "guess">
   
   <div id = "letters"></div>
+  <button id = "reset">Reset</button>
 
+  <h2>Correct Words</h2>
   <div id = "words">
-    <h2>Correct Words</h2>
+  </div>
+  
+  <div id="over">
   </div>
   
 </div>
+  
+  
 <script src="game.js"></script>
 </html>
