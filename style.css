@@ -1,4 +1,86 @@
+#game {
+  width: 100%;
+  height: 2000px;
+  position: fixed;
+  background: BlanchedAlmond;
+}
+
 h1 {
   color: DarkSalmon;
   font-family: verdana;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#start {
+  background-color: DarkCyan;
+  padding: 12px 28px;
+  font-size: 14px;
+  color: White;
+  font-family: verdana;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 75px;
+}
+
+#time {
+  font-size: 22px;
+  color: DarkSlateGrey;
+  font-family: verdana;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 132px;
+}
+
+#score {
+  font-size: 22px;
+  color: DarkSlateGrey;
+  font-family: verdana;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 168px;
+}
+
+#submit {
+  background-color: DarkCyan;
+  padding: 12px 28px;
+  font-size: 14px;
+  color: White;
+  font-family: verdana;
+  position: absolute;
+  left: 43%;
+  transform: translateX(-50%);
+  margin-top: 250px;
+}
+
+#guess {
+  font-size:33px;
+  position: absolute;
+  left: 65%;
+  transform: translateX(-50%);
+  margin-top: 250px;
+}
+
+#reset {
+  background-color: DarkCyan;
+  padding: 12px 28px;
+  font-size: 14px;
+  color: White;
+  font-family: verdana;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 450px;
+}
+
+h2 {
+  color: DarkSalmon;
+  font-family: verdana;
+  margin-top: 265px;
+  position: absolute;
+  left: 5%;
 }
