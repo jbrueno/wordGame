@@ -83,6 +83,15 @@ myDatabase.ref("starting").on('value', ss4=>{
   } else {
     $('start').disabled = false;
     $("submit").disabled = true;
+    myDatabase.ref("currentLetter").set("");
+    $('words').innerHTML = "";
+    $('letters').innerHTML = "";
+    $('score').innerHTML = "Score:  0";
+    $('guess').value = "";
+    $('avail').innerHTML = "";
+    string = "";
+    prevGuesses = [];
+    currentScore = 0;
   }
 });
 
@@ -102,15 +111,7 @@ $("start").addEventListener("click", function()
 $("reset").addEventListener("click", function(){
   myDatabase.ref("starting").set(0);
   clearInterval(timer);
-  myDatabase.ref("currentLetter").set("");
-  $('words').innerHTML = "";
-  $('letters').innerHTML = "";
-  $('score').innerHTML = "Score:  0";
-  $('guess').value = "";
-  $('avail').innerHTML = "";
-  string = "";
-  prevGuesses = [];
-  currentScore = 0;
+//
   seconds = 31;
 });
 
