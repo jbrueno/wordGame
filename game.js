@@ -70,7 +70,7 @@ myDatabase.ref("starting").on('value', ss4=>{
   let val = ss4.val();
   if(val == 1){
     $('start').disabled = true;
-    loadLetters();
+    //loadLetters();
     showLetters();
     showGuesses();
     $('letters').innerHTML = string;  
@@ -91,6 +91,7 @@ myDatabase.ref("starting").on('value', ss4=>{
 
 $("start").addEventListener("click", function()
 {
+  loadLetters();
   myDatabase.ref("starting").set(1);
   myDatabase.ref("seconds").set(31);
   $("guess").disabled = false;
