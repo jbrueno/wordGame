@@ -78,6 +78,11 @@ myDatabase.ref("starting").on('value', ss4=>{
   let val = ss4.val();
   if(val == 1){
     $('start').disabled = true;
+    loadLetters();
+    showLetters();
+  } else {
+    $('start').disabled = false;
+    $("submit").disabled = true;
   }
 });
 
@@ -88,19 +93,11 @@ $("start").addEventListener("click", function()
   $("submit").disabled = false;
   $('start').disabled = true;
   $("over").innerHTML = "";
-  loadLetters();
-  showLetters();
+  // load and show letters
   seconds = 31;
   timer = setInterval(setUpTimer, 1000);
 });
 
-myDatabase.ref("starting").on('value', ss=>{
-  let val = ss.val();
-  if(val == 0){
-    $('start').disabled = false;
-    $("submit").disabled = true;
-  }
-});
 
 $("reset").addEventListener("click", function(){
   myDatabase.ref("starting").set(0);
@@ -148,6 +145,7 @@ function checkGuess(guess){
     }
   })
 }
+
 
 let setUpTimer = function(){
   if(seconds != 0){
