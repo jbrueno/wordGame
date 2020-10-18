@@ -3,9 +3,9 @@ let NUM_LETTERS = 12; // 12 letters to start every game
 let string = ""; // will hold the letters that will be displayed
 let currentScore = 0;
 let prevGuesses = new Array();
-let startVal = 0; // when 0, startGame can be called, when 1, startGame can't be
 let seconds = 31; // number of seconds to play the game
 var timer;
+var chars; 
 
 var firebaseConfig = {
     apiKey: "AIzaSyCF4S06cLFRsQh2drfEvm05pnoyDripvcE",
@@ -23,45 +23,41 @@ let myDatabase = firebase.database();
 
 var $ = function( id ) { return document.getElementById( id ); };
 
-let startGame = function(){
-  if(startVal == 0){
-    $("guess").disabled = false;
-    loadletters();
-    seconds = 31;
-    timer = setInterval(setUpTimer, 1000);
-    startVal = 1;
-  }
-}
 
-let endGame = function(){
-  $('words').innerHTML = "";
-  $('letters').innerHTML = "";
-  $('score').innerHTML = "Score:  0";
-  $('guess').value = "";
-  $("over").innerHTML = "";
-  string = "";
-  prevGuesses = [];
-  currentScore = 0;
-  startVal = 0;
-  seconds = 31;
-  clearInterval(timer);
-}
+/*
+$("submit").disabled = true;
+myDatabase.ref("starting").set(0);
+myDatabase.ref("currentLetter").set("");
+*/
 
-let loadletters = function(){
+
+let loadLetters = function(){
   let randomIndex = parseInt(Math.floor(Math.random() * STARTERS));
-  myDatabase.ref("starters").child("alphabetized").child(randomIndex).once('value').then(snapshot =>
+  myDatabase.ref("starters").child("alphabetized").child(randomIndex).on('value', snapshot =>
   {
       let letters = snapshot.val();
+      myDatabase.ref("currentLetter").set(letters);
       string = letters;
       console.log(letters);
-
-      for(var i = 0; i < letters.length; i++){
-        $('letters').innerHTML += letters[i] + "       ";
-        if(i == 3 || i == 7)
-          $('letters').innerHTML += "<br>";
-      }
   });
 }
+
+let showLetters = function(){
+  myDatabase.ref("currentLetter").on("value", ss=>{
+    let chars = ss.val();
+    if($('avail').innerHTML == ""){
+    $('avail').innerHTML += "Available Letters";
+    }
+    if($('letters').innerHTML == ""){
+      for(var i = 0; i < chars.length; i++){
+        $('letters').innerHTML += chars[i] + "          ";
+        if(i == 3 || i == 7)
+          $('letters').innerHTML += '<br>';
+      }
+    }
+  });
+}
+
 
 $('submit').addEventListener("click", function()
 {
@@ -70,13 +66,55 @@ $('submit').addEventListener("click", function()
   checkGuess(guess);
 });
 
+$('guess').addEventListener('keypress', function(e){
+  if(e.key === 'Enter'){
+    let guess = $('guess').value;
+    console.log(guess);
+  }
+});
+
+
+myDatabase.ref("starting").on('value', ss4=>{
+  let val = ss4.val();
+  if(val == 1){
+    $('start').disabled = true;
+  }
+});
+
 $("start").addEventListener("click", function()
 {
-  startGame();
+  myDatabase.ref("starting").set(1);
+  $("guess").disabled = false;
+  $("submit").disabled = false;
+  $('start').disabled = true;
+  $("over").innerHTML = "";
+  loadLetters();
+  showLetters();
+  seconds = 31;
+  timer = setInterval(setUpTimer, 1000);
+});
+
+myDatabase.ref("starting").on('value', ss=>{
+  let val = ss.val();
+  if(val == 0){
+    $('start').disabled = false;
+    $("submit").disabled = true;
+  }
 });
 
 $("reset").addEventListener("click", function(){
-  endGame();
+  myDatabase.ref("starting").set(0);
+  clearInterval(timer);
+  myDatabase.ref("currentLetter").set("");
+  $('words').innerHTML = "";
+  $('letters').innerHTML = "";
+  $('score').innerHTML = "Score:  0";
+  $('guess').value = "";
+  $('avail').innerHTML = "";
+  string = "";
+  prevGuesses = [];
+  currentScore = 0;
+  seconds = 31;
 });
 
 function checkGuess(guess){
@@ -100,6 +138,7 @@ function checkGuess(guess){
       prevGuesses.push(guess);
       $('words').innerHTML += "-  " + guess + "<br>";
       $('score').innerHTML = "Score:  " + currentScore;
+      $('guess').value = '';
       return true;
     } else if(prevGuesses.includes(guess)) {
       alert("Word already found!");
@@ -116,7 +155,8 @@ let setUpTimer = function(){
     $("time").innerHTML = "Time: " + seconds;
   }else {
     $("over").innerHTML = "GAME OVER" + "<br>" + "Final Score: " + currentScore;
-    $("guess").disabled = true;
+    console.log($("over").innerHTML)
+    $('reset').click();
   }
   console.log(seconds);
 }
