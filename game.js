@@ -3,8 +3,8 @@ let NUM_LETTERS = 12; // 12 letters to start every game
 let string = ""; // will hold the letters that will be displayed
 let currentScore = 0;
 let prevGuesses = new Array();
-let seconds = 31; // number of seconds to play the game
-var timer;
+//let seconds = 31; //all timer funcionality is commented out, could not sync it for all users
+//var timer;  
 var chars; 
 
 var firebaseConfig = {
@@ -23,14 +23,6 @@ let myDatabase = firebase.database();
 
 var $ = function( id ) { return document.getElementById( id ); };
 
-
-/*
-$("submit").disabled = true;
-myDatabase.ref("starting").set(0);
-myDatabase.ref("currentLetter").set("");
-*/
-
-
 let loadLetters = function(){
   let randomIndex = parseInt(Math.floor(Math.random() * STARTERS));
   myDatabase.ref("starters").child("alphabetized").child(randomIndex).on('value', snapshot =>
@@ -46,7 +38,7 @@ let showLetters = function(){
   myDatabase.ref("currentLetter").on("value", ss=>{
     let chars = ss.val();
     if($('avail').innerHTML == ""){
-    $('avail').innerHTML += "Available Letters";
+      $('avail').innerHTML += "Available Letters";
     }
     if($('letters').innerHTML == ""){
       for(var i = 0; i < chars.length; i++){
@@ -80,6 +72,7 @@ myDatabase.ref("starting").on('value', ss4=>{
     $('start').disabled = true;
     loadLetters();
     showLetters();
+    $('letters').innerHTML = string;  
   } else {
     $('start').disabled = false;
     $("submit").disabled = true;
@@ -98,21 +91,24 @@ myDatabase.ref("starting").on('value', ss4=>{
 $("start").addEventListener("click", function()
 {
   myDatabase.ref("starting").set(1);
+  myDatabase.ref("seconds").set(31);
   $("guess").disabled = false;
   $("submit").disabled = false;
   $('start').disabled = true;
   $("over").innerHTML = "";
-  // load and show letters
-  seconds = 31;
-  timer = setInterval(setUpTimer, 1000);
+  //seconds = 31;
+  //timer = setInterval(setUpTimer, 1000);
 });
 
 
 $("reset").addEventListener("click", function(){
   myDatabase.ref("starting").set(0);
-  clearInterval(timer);
-//
-  seconds = 31;
+  myDatabase.ref("prevGuesses").remove();
+  $("over").innerHTML = "GAME OVER" + "<br>" + "Final Score: " + currentScore;
+  let g = myDatabase.ref("prevGuesses").orderByKey();
+  //clearGuesses();
+  //clearInterval(timer);
+  //seconds = 31;
 });
 
 function checkGuess(guess){
@@ -131,23 +127,50 @@ function checkGuess(guess){
   }
   let firstChar = guess[0];
   myDatabase.ref("dictionary").child(firstChar).child(guess).once('value', ss=>{
-    if(ss.exists() && !prevGuesses.includes(guess)){
-      currentScore += guess.length;
-      prevGuesses.push(guess);
-      $('words').innerHTML += "-  " + guess + "<br>";
-      $('score').innerHTML = "Score:  " + currentScore;
-      $('guess').value = '';
-      return true;
-    } else if(prevGuesses.includes(guess)) {
-      alert("Word already found!");
-    } else {
+    if(ss.exists()){
+      myDatabase.ref("prevGuesses").child(guess).once('value', ss2=>{
+        if(ss2.exists()){
+          alert("Word already found!");
+        }else{
+          myDatabase.ref("prevGuesses").child(guess).push();
+          myDatabase.ref("prevGuesses").child(guess).set(guess);
+          currentScore += guess.length;
+          showGuesses();
+          //$('words').innerHTML += "-  " + guess + "<br>";
+          $('score').innerHTML = "Score:  " + currentScore;
+          $('guess').value = '';
+          return true;
+        }
+      });
+    }else {
       alert("Not a word!");
       return false;
     }
-  })
+  });
 }
+ 
 
+let showGuesses = function(){
+  let g = myDatabase.ref("prevGuesses").orderByKey();
+  g.on('value', ss=>{
+    ss.forEach(function(child){
+      if(!$('words').innerHTML.includes(child.val()))
+        $('words').innerHTML += "-  " + child.val() + "<br>";
+    });
+  });
+}
+/*
+let clearGuesses = function(){
+  let g = myDatabase.ref("prevGuesses").orderByKey();
+    g.on('value', ss=>{
+      ss.forEach(function(child){
+        child.remove();
+        });
+      });
+}
+*/
 
+/*
 let setUpTimer = function(){
   if(seconds != 0){
     seconds--;
@@ -159,3 +182,6 @@ let setUpTimer = function(){
   }
   console.log(seconds);
 }
+*/
+
+
