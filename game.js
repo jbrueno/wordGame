@@ -135,9 +135,13 @@ function checkGuess(guess){
           myDatabase.ref("prevGuesses").child(guess).push();
           myDatabase.ref("prevGuesses").child(guess).set(guess);
           currentScore += guess.length;
+          myDatabase.ref("score").set(currentScore);
           showGuesses();
           //$('words').innerHTML += "-  " + guess + "<br>";
-          $('score').innerHTML = "Score:  " + currentScore;
+          myDatabase.ref("score").on('value', ss3=>{
+            $('score').innerHTML = "Score:  " + ss3.val();
+          });
+          //$('score').innerHTML = "Score:  " + currentScore;
           $('guess').value = '';
           return true;
         }
