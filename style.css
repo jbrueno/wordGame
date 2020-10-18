@@ -45,6 +45,16 @@ h1 {
   margin-top: 168px;
 }
 
+#words {
+  font-size: 25px;
+  color: DarkSlateGrey;
+  font-family: verdana;
+  position: absolute;
+  left: 10%;
+  transform: translateX(-50%);
+  margin-top: 325px;
+}
+
 #submit {
   background-color: DarkCyan;
   padding: 12px 28px;
@@ -74,13 +84,32 @@ h1 {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 450px;
+  margin-top: 350px;
 }
 
-h2 {
+h3 {
+  font-size: 30px;
   color: DarkSalmon;
   font-family: verdana;
   margin-top: 265px;
   position: absolute;
-  left: 5%;
+  left: 4%;
+}
+
+#letters {
+  font-size: 35px;
+  color: DarkSlateGrey;
+  font-family: verdana;
+  position: absolute;
+  left: 8%;
+  margin-top: 110px;
+}
+
+#avail {
+  font-size: 35px;
+  color: LightSkyBlue;
+  font-family: verdana;
+  position: absolute;
+  margin-top: 60px;
+  left: 3%;
 }
