@@ -72,6 +72,7 @@ myDatabase.ref("starting").on('value', ss4=>{
     $('start').disabled = true;
     loadLetters();
     showLetters();
+    showGuesses();
     $('letters').innerHTML = string;  
   } else {
     $('start').disabled = false;
@@ -136,7 +137,7 @@ function checkGuess(guess){
           myDatabase.ref("prevGuesses").child(guess).set(guess);
           currentScore += guess.length;
           myDatabase.ref("score").set(currentScore);
-          showGuesses();
+          //showGuesses();
           //$('words').innerHTML += "-  " + guess + "<br>";
           myDatabase.ref("score").on('value', ss3=>{
             $('score').innerHTML = "Score:  " + ss3.val();
@@ -163,29 +164,5 @@ let showGuesses = function(){
     });
   });
 }
-/*
-let clearGuesses = function(){
-  let g = myDatabase.ref("prevGuesses").orderByKey();
-    g.on('value', ss=>{
-      ss.forEach(function(child){
-        child.remove();
-        });
-      });
-}
-*/
-
-/*
-let setUpTimer = function(){
-  if(seconds != 0){
-    seconds--;
-    $("time").innerHTML = "Time: " + seconds;
-  }else {
-    $("over").innerHTML = "GAME OVER" + "<br>" + "Final Score: " + currentScore;
-    console.log($("over").innerHTML)
-    $('reset').click();
-  }
-  console.log(seconds);
-}
-*/
 
 
