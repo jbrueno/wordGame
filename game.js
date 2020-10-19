@@ -54,7 +54,7 @@ let showLetters = function(){
 
 $('info').addEventListener("click", function(){
   if(clicked %2 == 0){
-    $('info').innerHTML = "When the game starts, you will see 12 random letters appear.  " + "<br>" + "Using these letters, try make as many words as possible.  " + "<br>" + "You will be playing along with anyone else on the site to try and get " + "<br>" + "the highest possible score together."
+    $('info').innerHTML = "When the game starts, you will see 12 random letters appear.  " + "<br>" + "Using these letters, try make as many words as possible.  " + "<br>" + "You will be playing along with anyone else on the site to try and get the highest possible score together."
   }
 });
 
