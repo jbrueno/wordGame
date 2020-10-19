@@ -1,3 +1,5 @@
+
+
 #game {
   width: 100%;
   height: 2000px;
@@ -112,4 +114,30 @@ h3 {
   position: absolute;
   margin-top: 60px;
   left: 3%;
+}
+
+#over {
+  font-size: 35px;
+  color: LightSkyBlue;
+  font-family: verdana;
+  position: absolute;
+  margin-top: 60px;
+  left: 3%;
+}
+
+#tutorial {
+  font-size: 35px;
+  color: LightSkyBlue;
+  font-family: verdana;
+  position: absolute;
+  margin-top: 5px;
+  left: 80%;
+}
+
+#info {
+  background-color: DarkCyan;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: White;
+  font-family: verdana;
 }
